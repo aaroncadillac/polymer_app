@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
-<link rel="import" href="shared-styles.html">
+<link rel="import" href="sorteo-element.html">
 
 <dom-module id="my-view2">
   <template>
@@ -28,6 +28,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <div class="card">
       <h1>Sorteo</h1>
+      <sorteo-element winner="{{winner}}" id="random"></sorteo-element>
       <paper-button raised class="blue-button" on-click="initRandomPerson">Comenzar</paper-button>
       <h2 hidden="[[validateWinner(winner)]]">Ganador: [[winner]]</h2>
     </div>

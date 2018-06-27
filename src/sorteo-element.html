@@ -1,0 +1,106 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="sorteo-element">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+      .contenedor-persona {
+        padding: 5px 10px;
+        display: block;
+        color: white;
+      }
+      .blue-background {
+        background-color: blue;
+      }
+      .gray-background {
+        background-color: grey;
+      }
+      .green-background {
+        background-color: green;
+      }
+      .orange-background {
+        background-color: orange;
+      }
+      .pink-background {
+        background-color: pink;
+      }
+      .name, .counter {
+        display: inline-block;
+      }
+    </style>
+
+    <div class="card">
+      <h1>Lista de personas</h1>
+      <template is="dom-repeat" items="[[data]]">
+        <span class$="contenedor-persona [[ _applyBackground(item.age)]]">
+          <template is="dom-if" if="[[item.counter]]">
+            <p class="counter">[[item.counter]]</p>
+          </template>
+          <p class="name">[[item.name]]</p>
+        </span>
+      </template>
+    </div>
+  </template>
+
+  <script>
+    class SorteoElement extends Polymer.Element {
+      static get is() { return 'sorteo-element'; }
+      static get properties() {
+        return {
+          data: {
+            type: Array,
+            value: () => {
+              return [
+                {name: 'Luis', age: 50},
+                {name: 'Eduardo', age: 5},
+                {name: 'Uriel', age: 20},
+                {name: 'Laura', age: 35},
+                {name: 'Esteban', age: 70},
+                {name: 'Alan', age: 13}
+              ]
+            },
+            observer: '_sortData'
+          },
+          winner: {
+            type: 'String',
+            value: '',
+            notify: true
+          }
+        }
+      }
+
+      go() {
+        let index = Math.floor(Math.random() * (this.data.length))
+        this.set(`data.${index}.counter`, (this.data[index].counter || 0) + 1);
+        this.notifyPath('data');
+        this.set('winner', this.data[index].name);
+      }
+      _applyBackground(age) {
+        if (age < 15) {
+          return 'blue-background'
+        }
+        else if (age >= 15 && age <= 30) {
+          return 'gray-background'
+        }
+        else if (age >= 31 && age <= 40) {
+          return 'green-background'
+        }
+        else if (age >= 41 && age <= 60) {
+          return 'orange-background'
+        }
+        else {
+          return 'pink-background'
+        }
+      }
+
+      _sortData(data) {
+        data.sort((e, i) => e.name > i.name)
+      }
+    }
+
+    window.customElements.define(SorteoElement.is, SorteoElement);
+  </script>
+</dom-module>
